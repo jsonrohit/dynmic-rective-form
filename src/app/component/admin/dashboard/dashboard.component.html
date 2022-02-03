@@ -1,0 +1,41 @@
+<div class="container my-5">
+  <div class="row text-center">
+    <div class="col-md-4">
+      <button class="btn btn-info" (click)="GetDynamicData()" [hidden]="!edit">Edit</button>
+      <button class="btn btn-info" [hidden]="!update">Update</button>
+    </div>
+    <div class="col-md-4">
+      <h3><b>User: {{localdata.name}}</b></h3>
+    </div>
+    
+    <div class="col-md-4">
+      <button class="btn btn-info" (click)="logOut()">Logout</button>
+    </div>
+  </div>
+</div>
+<hr>
+<div class="container-fluid">
+<div class="row">
+  <div class="col-md-2 col-lg-2 col-sm-6 col-xs-12">
+      <label for="Accountholder">Accountholder</label>
+      <input type="text" class="form-control" >
+  </div>
+</div>
+</div>
+
+<!-- <form [formGroup]="dynamicForm"> 
+    <ng-container formArrayName="items">
+       <div class="row ml-0 mt-3" *ngFor="let item of products; let i = index;" formArrayName='i'>
+       <div class="row ml-0 mt-3" *ngFor="let item of dynamicForm.get('items').controls; let i = index;" formArrayName='i'>
+              <div class="col-md-2">
+                <input name="EMI Amount"
+                  id="EmiAmount"
+                  formControlName=""
+                  placeholder="Value"
+                  class="form-control input-text-css"
+              />
+              </div>
+        </div>
+        {{items}}
+     </ng-container>
+  </form> -->
