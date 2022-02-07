@@ -1,53 +1,55 @@
 <h1 class="text-center my-5">Login</h1>
 <div class="container my-5" style="width:40%">
-    <form [formGroup]="userLoginForm">
-        <div class="mb-3">
-          <label for="username" class="form-label">Email address</label>
-          <input type="email" class="form-control" formControlName="username" >
-          <div *ngIf="f['username'].touched && f['username'].invalid" style="color:red">
-            <div *ngIf="f['username'].errors && f['username'].errors['required']">Name is required.</div>
-        </div>
-        </div>
-        <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input type="password"  formControlName="password" class="form-control">
-          <div *ngIf="f['password'].touched && f['password'].invalid" style="color:red">
-            <div *ngIf="f['password'].errors && f['password'].errors['required']">Password is required.</div>
-        </div>
-        </div>
-        <button type="submit" class="btn btn-primary" (click)="login()" [disabled]="userLoginForm.invalid">Submit</button>
-    </form>
+  <form [formGroup]="userLoginForm">
+    <div class="mb-3">
+      <p style="color:red">{{invaildMsg}}</p>
+      <label for="username" class="form-label">Email address</label>
+      <input type="email" class="form-control" formControlName="username">
+      <div *ngIf="f['username'].touched && f['username'].invalid" style="color:red">
+        <div *ngIf="f['username'].errors && f['username'].errors['required']">Name is required.</div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" formControlName="password" class="form-control">
+      <div *ngIf="f['password'].touched && f['password'].invalid" style="color:red">
+        <div *ngIf="f['password'].errors && f['password'].errors['required']">Password is required.</div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="login()" [disabled]="userLoginForm.invalid">Submit</button>
+  </form>
 </div>
 
 
 
 <!-- Modal -->
 <div class="modal" [class.show]="show" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
- aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">OTP</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modelShow()">
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">OTP</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modelShow()">
           <span aria-hidden="true">&times;</span>
         </button>
-			</div>
-			<div class="modal-body">
-                <form [formGroup]="otpVarifyForm">
-				<div class="form-group">
-                    <label for="editOwnerName">OTP</label>
-                    <input type="text" class="form-control" formControlName="otp"   placeholder=""/>
-                    <div *ngIf="otp['otp'].touched && otp['otp'].invalid" style="color:red">
-                        <div *ngIf="otp['otp'].errors && otp['otp'].errors['required']">OTP is required.</div>
-                    </div>
-                    <p style="color:green">{{successMsg}}</p>
-                    <p style="color:red">{{errorMsg}}</p>
-				</div>
-            </form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" (click)="otpVarification()"  [disabled]="otpVarifyForm.invalid">Save changes</button>
-			</div>
-		</div>
-	</div>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="otpVarifyForm">
+          <div class="form-group">
+            <label for="editOwnerName">OTP</label>
+            <input type="text" class="form-control" formControlName="otp" placeholder="" />
+            <div *ngIf="otp['otp'].touched && otp['otp'].invalid" style="color:red">
+              <div *ngIf="otp['otp'].errors && otp['otp'].errors['required']">OTP is required.</div>
+            </div>
+            <p style="color:green">{{successMsg}}</p>
+            <p style="color:red">{{errorMsg}}</p>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="otpVarification()"
+          [disabled]="otpVarifyForm.invalid">Save changes</button>
+      </div>
+    </div>
+  </div>
 </div>

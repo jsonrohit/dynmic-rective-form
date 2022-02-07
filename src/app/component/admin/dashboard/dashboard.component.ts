@@ -12,92 +12,86 @@ export class DashboardComponent implements OnInit {
   dynamicForm!: FormGroup;
   items!: FormArray;
   localdata: any;
-  update:boolean = false;
-  edit:boolean = true;
+  update: boolean = false;
+  edit: boolean = true;
+  survey!: FormGroup;
 
 
-  constructor(private userservice: UserService, private formBuilder: FormBuilder,private router:Router) { }
-
-  // ngOnInit(): void {
-  //   this.getData();
-  // }
+  constructor(private userservice: UserService, private formBuilder: FormBuilder, private router: Router) { }
   ngOnInit() {
+    this.dynamicForm = this.formBuilder.group({
+      items: this.formBuilder.array([])
+    });
     this.getData();
-    this.amortizationForm();
-    
-    // this.form = this.fb.group({
-    //   products : this.fb.array([
-    //     this.createProducts()
-    //   ])
-    // });
   }
 
-  getData(){
+  getData() {
     this.localdata = localStorage.getItem('userData');
-    this.localdata= JSON.parse(this.localdata);
-    // console.log(this.localdata,'localdata');
+    this.localdata = JSON.parse(this.localdata);
     var formData: any = new FormData();
     formData.append("token", 'e090c25187ee2b3f9f1f8a02747356641');
     formData.append("authToken", this.localdata.authToken);
 
-    this.userservice.post(`getDynamicform`,formData).subscribe(res=>{
-      console.log(res,'getDynamicform');
-      res.data.forEach((element:any) => {
-        var obj:any = {};
+    this.userservice.post(`getDynamicform`, formData).subscribe(res => {
+      res.data.forEach((element: any) => {
+        var obj: any = {};
         var key = Object.keys(element);
-        key.forEach((ele:any) => {
+        key.forEach((ele: any) => {
           obj[ele] = element[ele];
-          this.addItem(obj);
-          
+          this.addItem(obj, ele);
           obj = {};
-          
         });
-      
-        console.log(element,'elementvelementelementelement');
       });
-      console.log(this.dynamicForm.value,'dynamicFormdynamicFormdynamicFormdynamicForm');
     });
   }
 
-  
 
-  createDynamicForm(element:any): FormGroup {
-    console.log(element,'createDynamicFormcreateDynamicForm');
-    return this.formBuilder.group(
-      element
-    );
-  }
-
-
-  amortizationForm() {
-    this.dynamicForm = this.formBuilder.group({
-      items: this.formBuilder.array([])
-    });
-  }
-
-  addItem(element:any) {
-    console.log(this.dynamicForm.get('items'),'elementelement');
+  addItem(element: any, key: string) {
     this.items = this.dynamicForm.get('items') as FormArray;
-    this.items.push(this.formBuilder.group({
-      element
-  }));
-    // this.items.push(this.createDynamicForm(element));
-    
-    console.log(this.products,'this.itemsthis.itemsthis.items');
+    const value: any = this.getFrom(element[key]);
+    this.items.push(this.formBuilder.group({ [key]: new FormArray(value) }));
+  }
+
+
+  getFrom(element: any) {
+    const eleArr: any = [];
+    element.forEach((ele: any) => {
+      const a = this.formBuilder.group(ele);
+      eleArr.push(a);
+    });
+    return eleArr;
   }
 
   get products(): FormArray {
     return this.dynamicForm.get('items') as FormArray;
   }
 
-  GetDynamicData(){
-
+  getControl(control: any) {
+    return this.dynamicForm.get(control) as FormArray;
   }
 
+  getSecondControl(formGroup: any, i: number) {
+    const key = Object.keys(formGroup.controls)[0];
+    return formGroup.controls[key].controls;
+  }
 
-  logOut(){
+  getFromGroup(formGroup: any, i: number) {
+    const key = Object.keys(formGroup.controls)[0];
+    return key;
+  }
+
+  getThirdControl(item: any, j: any) {
+    const arr: any = [];
+    Object.keys(item.controls).map((x) => {
+      arr.push({ [x]: item.controls[x] });
+    })
+    return arr;
+  }
+
+  logOut() {
     localStorage.removeItem('userData');
     this.router.navigateByUrl('login');
   }
+
 
 }
